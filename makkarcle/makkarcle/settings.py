@@ -143,8 +143,8 @@ CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = 'smtp.mikhailamshei.com'
+EMAIL_HOST = 'smtp.grodnoapps.com'
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'python@mikhailamshei.com'
-EMAIL_HOST_PASSWORD = 'pa$$w0rd'
-DEFAULT_FROM_EMAIL = 'python@mikhailamshei.com'
+EMAIL_HOST_USER = 'makkracel@grodnoapps.com'
+EMAIL_HOST_PASSWORD = 'Ba71e3b4c'
+DEFAULT_FROM_EMAIL = 'makkracel@grodnoapps.com'

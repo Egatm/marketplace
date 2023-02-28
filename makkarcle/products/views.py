@@ -9,5 +9,5 @@ def product_list(request):
 
     context = {'products': products, 'form': form}
 
-    return render(request, 'products/product_list.html', context)
+    return render(request, 'product_list.html', context)
 
