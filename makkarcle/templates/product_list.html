@@ -7,9 +7,9 @@
 {% block content %}
 {% for product in product_list %}
 <div class="container">
-    <div class="row align-items-end">
+    <div class="row align-items-start">
         <div class="col">
-            <img src="{{ product.image }}">
+            <img src="{{ product.image.url }}">
         </div>
         <div class="col">
             <p>{{ product.name }}</p>
