@@ -5,5 +5,30 @@
 {% block title %}Каталог{% endblock title %}
 
 {% block content %}
-
+{% for product in product_list %}
+<div class="container">
+    <div class="row align-items-end">
+        <div class="col">
+            <img src="{{ product.image }}">
+        </div>
+        <div class="col">
+            <p>{{ product.name }}</p>
+            <div class="col">
+                <p>{{ "Характеристики:" }}</p>
+                <p>{{ product.description }}</p>
+            </div>
+        </div>
+        <div class="col">
+            <p>{{ "Цена:" }} {{ product.price }} {{ "руб." }}</p>
+            <button class="btn btn-dark" type="submit">Добавить в корзину</button>
+        </div>
+    </div>
+</div>
+{% endfor %}
+<!--<div class="col-4">-->
+<!--    <h2>{{ products.name }}</h2>-->
+<!--    <img src="{{ products.image.url }}" alt="{{ products.name }}">-->
+<!--    <h5>{{ products.price }}</h5>-->
+<!--    <h6>{{ products.description }}</h6>-->
+<!--</div>-->
 {% endblock content %}
