@@ -8,6 +8,7 @@ django = "~=4.0"
 pillow = "*"
 django-crispy-forms = "*"
 crispy-bootstrap5 = "*"
+environs = "*"
 
 [dev-packages]
 

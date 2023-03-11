@@ -11,7 +11,10 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+from environs import Env
 
+env = Env()
+env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,12 +26,12 @@ MEDIA_ROOT = BASE_DIR.joinpath("mediafiles/")
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-h4smrmg%(*iuv3bk29@c&a(v%d!1=m)2b88=c)bcjx5hf83o%i'
+SECRET_KEY = env.str("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env.bool("DEBUG", default=False)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [env.str("ALLOWED_HOSTS")]
 
 
 # Application definition
@@ -145,6 +148,6 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = 'smtp.grodnoapps.com'
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'makkracel@grodnoapps.com'
-EMAIL_HOST_PASSWORD = 'Ba71e3b4c'
+EMAIL_HOST_USER = env.str("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = env.str("EMAIL_HOST_PASSWORD")
 DEFAULT_FROM_EMAIL = 'makkracel@grodnoapps.com'
