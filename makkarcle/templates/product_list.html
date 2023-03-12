@@ -9,13 +9,12 @@
 <div class="container">
     <div class="row align-items-start">
         <div class="col">
-            <img src="{{ product.image.url }}">
+            <a href="{% url 'product_detail' product.pk %}"><img src="{{ product.image.url }}"></a>
         </div>
         <div class="col">
-            <p><strong>{{ product.name }}</strong></p>
+            <p><strong><a href="{% url 'product_detail' product.pk %}" style="text-decoration: none; color: black;">{{ product.name }}</a></strong></p>
             <div class="col">
-                <p>Характеристики:</p>
-                <p>{{ product.description }}</p>
+                <pre>{{ product.description }}</pre>
             </div>
         </div>
         <div class="col">
