@@ -12,9 +12,9 @@
             <img src="{{ product.image.url }}">
         </div>
         <div class="col">
-            <p>{{ product.name }}</p>
+            <p><strong>{{ product.name }}</strong></p>
             <div class="col">
-                <p>{{ "Характеристики:" }}</p>
+                <p>Характеристики:</p>
                 <p>{{ product.description }}</p>
             </div>
         </div>
@@ -25,10 +25,4 @@
     </div>
 </div>
 {% endfor %}
-<!--<div class="col-4">-->
-<!--    <h2>{{ products.name }}</h2>-->
-<!--    <img src="{{ products.image.url }}" alt="{{ products.name }}">-->
-<!--    <h5>{{ products.price }}</h5>-->
-<!--    <h6>{{ products.description }}</h6>-->
-<!--</div>-->
 {% endblock content %}

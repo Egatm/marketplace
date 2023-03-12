@@ -17,6 +17,7 @@ class Category(models.Model):
 
 class Product(models.Model):
 	category = models.ForeignKey(Category, related_name='products', on_delete=models.CASCADE)
+	firma = models.CharField(max_length=100, blank=True)
 	name = models.CharField(max_length=150, db_index=True)
 	image = models.ImageField(upload_to='images/', default="images/no_image.jpg", blank=True)
 	description = models.TextField(max_length=1000, blank=True)
