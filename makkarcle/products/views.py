@@ -1,8 +1,21 @@
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, CreateView
 from django.shortcuts import render
 from .models import Product
 from .forms import ProductForm
 
+
+class ProductsCreateView(CreateView):
+    model = Product
+    template_name = "product_new.html"
+    fields = (
+        "category",
+        "name",
+        "firma",
+        "description",
+        "description_all",
+        "image",
+        "price",
+    )
 
 class ProductsListView(ListView):
     model = Product

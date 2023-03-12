@@ -16,13 +16,13 @@ class Category(models.Model):
 
 
 class Product(models.Model):
-	category = models.ForeignKey(Category, related_name='products', on_delete=models.CASCADE)
-	firma = models.CharField(max_length=100, blank=True)
-	name = models.CharField(max_length=150, db_index=True)
-	image = models.ImageField(upload_to='images/', default="images/no_image.jpg", blank=True)
-	description = models.TextField(max_length=1000, blank=True)
-	description_all = models.TextField(max_length=2000, blank=True)
-	price = models.DecimalField(max_digits=6, decimal_places=2)
+	category = models.ForeignKey(Category, related_name='products', on_delete=models.CASCADE, verbose_name="Категория")
+	firma = models.CharField(max_length=100, blank=True, verbose_name="Производитель")
+	name = models.CharField(max_length=150, db_index=True, verbose_name="Название")
+	image = models.ImageField(upload_to='images/', default="images/no_image.jpg", blank=True, verbose_name="Изображение")
+	description = models.TextField(max_length=1000, blank=True, verbose_name="Краткое описание")
+	description_all = models.TextField(max_length=2000, blank=True, verbose_name="Полное описание")
+	price = models.DecimalField(max_digits=6, decimal_places=2, verbose_name="Цена")
 	available = models.BooleanField(default=True)
 
 	class Meta:
@@ -34,4 +34,4 @@ class Product(models.Model):
 		return self.name
 
 	def get_absolute_url(self):
-		return reverse("product_list", kwargs={"pk": self.pk})
+		return reverse("product_list")
