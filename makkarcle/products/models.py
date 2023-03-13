@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from django.conf import settings
 
 
 # Create your models here.
@@ -24,6 +25,7 @@ class Product(models.Model):
 	description_all = models.TextField(max_length=2000, blank=True, verbose_name="Полное описание")
 	price = models.DecimalField(max_digits=6, decimal_places=2, verbose_name="Цена")
 	available = models.BooleanField(default=True)
+	# seller = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
 	class Meta:
 		ordering = ('name',)

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags  %}
+
+{% block title %}Удаление товара{% endblock title %}
+
+{% block content %}
+<div class="col-4">
+    <h2>Удаление товара</h2>
+    <form method="post">
+        {% csrf_token %}
+        <p>Вы уверены, что хотите удалить "{{ product.name }}"?</p>
+        <button class="btn btn-dark" type="submit">Удалить</button>
+    </form>
+</div>
+{% endblock content %}

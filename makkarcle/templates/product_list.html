@@ -19,7 +19,14 @@
         </div>
         <div class="col">
             <p>{{ "Цена:" }} {{ product.price }} {{ "руб." }}</p>
-            <button class="btn btn-dark" type="submit">Добавить в корзину</button>
+            <div class="btn btn-dark nav-item me-2">
+                <a class="nav-link" href="#">Добавить в корзину</a>
+            </div>
+            {% if user.is_staff %}
+            <div class="crad-footer text-dark">
+                <a href="{% url 'product_edit' product.pk %}" style="text-decoration: none; color: black;">Изменить</a> | <a href="{% url 'product_delete' product.pk %}" style="text-decoration: none; color: black;">Удалить</a>
+            </div>
+            {% endif %}
         </div>
     </div>
 </div>
