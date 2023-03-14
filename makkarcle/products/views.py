@@ -3,6 +3,7 @@ from django.views.generic import ListView, DetailView, CreateView
 from django.views.generic.edit import UpdateView, DeleteView
 
 from .models import Product
+# from .forms import CommentForm
 
 
 class ProductsCreateView(CreateView):
@@ -27,6 +28,11 @@ class ProductsListView(ListView):
 class ProductsDetailView(DetailView):
     model = Product
     template_name = "product_detail.html"
+
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context['form'] = CommentForm()
+    #     return context
 
 
 class ProductsUpdateView(UpdateView):

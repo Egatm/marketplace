@@ -37,3 +37,19 @@ class Product(models.Model):
 
 	def get_absolute_url(self):
 		return reverse("product_list")
+
+
+class Comment(models.Model):
+	author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,)
+	product = models.ForeignKey(Product, on_delete=models.CASCADE,)
+	comment = models.CharField(max_length=200)
+
+	class Meta:
+		verbose_name = "Отзыв"
+		verbose_name_plural = 'Отзывы'
+
+	def __str__(self):
+		return self.comment
+
+	def get_absolute_url(self):
+		return reverse("product_list")
