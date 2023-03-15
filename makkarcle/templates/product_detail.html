@@ -25,12 +25,14 @@
     <hr>
     <h6>Отзывы</h6>
     <hr>
-<!--    <h5>Добавить отзыв</h5>-->
-<!--    <form action="" method="post">-->
-<!--        {% csrf_token %}-->
-<!--        {{ form|crispy }}-->
-<!--        <button class="btn btn-dark ml-2" type="submit">Оставить отзыв</button>-->
-<!--    </form>-->
+    {% if user.is_authenticated %}
+    <h5>Добавить отзыв</h5>
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button class="btn btn-dark ml-2" type="submit">Оставить отзыв</button>
+    </form>
+    {% endif %}
     <hr>
     {% for comment in product.comment_set.all %}
     <p><strong>{{ comment.author }}</strong></p>

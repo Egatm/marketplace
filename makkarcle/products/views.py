@@ -1,9 +1,10 @@
-from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, CreateView
+from django.urls import reverse_lazy, reverse
+from django.views.generic import ListView, DetailView, CreateView, FormView
 from django.views.generic.edit import UpdateView, DeleteView
-
+from django.views.generic.detail import SingleObjectMixin
+from django.views import View
 from .models import Product
-# from .forms import CommentForm
+from .forms import CommentForm
 
 
 class ProductsCreateView(CreateView):
@@ -25,14 +26,45 @@ class ProductsListView(ListView):
     template_name = "product_list.html"
 
 
-class ProductsDetailView(DetailView):
+class CommentGet(DetailView):
     model = Product
     template_name = "product_detail.html"
 
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     context['form'] = CommentForm()
-    #     return context
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = CommentForm()
+        return context
+
+
+class CommentPost(SingleObjectMixin, FormView):
+    model = Product
+    form_class = CommentForm
+    template_name = "product_detail.html"
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        return super().post(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        comment = form.save(commit=False)
+        comment.product = self.object
+        comment.author = self.request.user
+        comment.save()
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        product = self.get_object()
+        return reverse("product_detail", kwargs={"pk": product.pk})
+
+
+class ProductsDetailView(View):
+    def get(self, request, *args, **kwargs):
+        view = CommentGet.as_view()
+        return view(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        view = CommentPost.as_view()
+        return view(request, *args, **kwargs)
 
 
 class ProductsUpdateView(UpdateView):

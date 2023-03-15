@@ -40,9 +40,9 @@ class Product(models.Model):
 
 
 class Comment(models.Model):
-	author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,)
+	author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name="Автор")
 	product = models.ForeignKey(Product, on_delete=models.CASCADE,)
-	comment = models.CharField(max_length=200)
+	comment = models.CharField(max_length=200, verbose_name="Отзыв")
 
 	class Meta:
 		verbose_name = "Отзыв"
