@@ -8,17 +8,17 @@
 <div class="container">
     <div class="row align-items-start">
         <div class="col">
-            <img src="{{ object.image.url }}">
+            <img src="{{ product.image.url }}">
         </div>
         <div class="col">
-            <p><strong>{{ object.name }}</strong></p>
+            <p><strong>{{ product.name }}</strong></p>
             <div class="col">
-                <pre>{{ object.description_all }}</pre>
+                <pre>{{ product.description_all }}</pre>
             </div>
         </div>
 
         <div class="col">
-            <p>{{ "Цена:" }} {{ object.price }} {{ "руб." }}</p>
+            <p><strong>{{ "Цена:" }} {{ product.price }} {{ "руб." }}</strong></p>
             <button class="btn btn-dark" type="submit">Добавить в корзину</button>
         </div>
     </div>

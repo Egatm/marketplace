@@ -25,6 +25,7 @@ class Product(models.Model):
 	description_all = models.TextField(max_length=2000, blank=True, verbose_name="Полное описание")
 	price = models.DecimalField(max_digits=6, decimal_places=2, verbose_name="Цена")
 	available = models.BooleanField(default=True)
+
 	# seller = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
 	class Meta:
@@ -39,9 +40,14 @@ class Product(models.Model):
 		return reverse("product_list")
 
 
+class ProductPhoto(models.Model):
+	photo = models.ImageField(upload_to='products/', blank=True, verbose_name="Изображение")
+	product = models.ForeignKey(Product, on_delete=models.CASCADE)
+
+
 class Comment(models.Model):
 	author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name="Автор")
-	product = models.ForeignKey(Product, on_delete=models.CASCADE,)
+	product = models.ForeignKey(Product, on_delete=models.CASCADE, )
 	comment = models.CharField(max_length=200, verbose_name="Отзыв")
 
 	class Meta:

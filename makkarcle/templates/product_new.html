@@ -7,10 +7,41 @@
 {% block content %}
 <div class="col-4">
     <h2>Новый товар</h2>
-    <form action="" method="post">
+    <form action="" method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ form|crispy }}
+        <div id="photo-form-set">
+            {% for form in photo_form_set %}
+            <div class="photo-form">
+                {{ form|crispy }}
+            </div>
+            {% endfor %}
+        </div>
+        <button type="button" id="add-photo" class="btn btn-success">Add Photo</button>
+        {{ product_form|crispy }}
         <button class="btn btn-dark" type="submit">Добавить</button>
     </form>
 </div>
 {% endblock content %}
+{% block extra_js %}
+<script>
+    const photoFormSet = document.getElementById("photo-form-set");
+    const addPhotoButton = document.getElementById("add-photo");
+
+    addPhotoButton.addEventListener('click', () => {
+        const photoForms = photoFormSet.getElementsByClassName("photo-form");
+        const currentPhotoCount = photoForms.length;
+        const emptyForm = document.createElement("div");
+        emptyForm.classList.add("photo-form");
+        const formIdx = document.getElementById('id_photo_set-TOTAL_FORMS').value;
+        emptyForm.innerHTML = `
+        {% with form=photo_form_set.empty_form %}
+        {{ form|crispy }}
+        {% endwith %}
+        `.replace(/__prefix__/g, formIdx);
+        photoFormSet.appendChild(emptyForm);
+        document.getElementById('id_photo_set-TOTAL_FORMS').value = parseInt(formIdx) + 1;
+    });
+
+
+</script>
+{% endblock extra_js %}

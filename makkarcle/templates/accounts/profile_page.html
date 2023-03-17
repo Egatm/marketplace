@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags  %}
+
+{% block title %}Страница профиля{% endblock title %}
+
+{% block content %}
+<h2>{{ user.username }}</h2>
+<div class="col-4">
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+<!--        <button class="btn btn-dark" type="submit">Изменить</button>-->
+    </form>
+</div>
+{% endblock content %}

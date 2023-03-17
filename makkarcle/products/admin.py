@@ -8,9 +8,15 @@ class CommentInLine(admin.TabularInline):
 	extra = 0
 
 
+class PhotoInLine(admin.TabularInline):
+	model = Comment
+	extra = 1
+
+
 class ProductAdmin(admin.ModelAdmin):
 	inlines = [
 		CommentInLine,
+		PhotoInLine,
 	]
 
 

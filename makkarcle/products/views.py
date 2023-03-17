@@ -3,22 +3,18 @@ from django.views.generic import ListView, DetailView, CreateView, FormView
 from django.views.generic.edit import UpdateView, DeleteView
 from django.views.generic.detail import SingleObjectMixin
 from django.views import View
-from .models import Product
-from .forms import CommentForm
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import Product, ProductPhoto
+from .forms import CommentForm, PhotoFormSet, ProductForm
 
 
-class ProductsCreateView(CreateView):
-    model = Product
+class ProductsCreateView(View):
     template_name = "product_new.html"
-    fields = (
-        "category",
-        "name",
-        "firma",
-        "description",
-        "description_all",
-        "image",
-        "price",
-    )
+    def get(self, request, *args, **kwargs):
+        product_form = ProductForm()
+        photo_form_set = PhotoFormSet(queryset=ProductPhoto.objects.none())
+        return render(request, "product_new.html", {'product_form': product_form, "photo_form_set": photo_form_set})
+
 
 
 class ProductsListView(ListView):
