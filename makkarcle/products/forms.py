@@ -8,12 +8,13 @@ from .models import Product, Comment, ProductPhoto
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ('name', 'description', 'price', 'image')
+        fields = ('category', 'firma', 'name', 'description', 'description_all', 'price',)
+
 
 class ProductPhotoForm(forms.ModelForm):
     class Meta:
         model = ProductPhoto
-        fields = ('photo', )
+        fields = ('photo',)
 
         def __init__(self, *args, **kwargs):
             super(ProductPhotoForm, self).__init__(*args, **kwargs)
@@ -24,6 +25,8 @@ class ProductPhotoForm(forms.ModelForm):
                     Column(HTML('<button type="button" class="btn btn-danger remove-photo">Remove</button>'), css_class="col-md-2"),
                 ),
             )
+
+
 PhotoFormSet = inlineformset_factory(
     Product,
     ProductPhoto,
@@ -33,6 +36,7 @@ PhotoFormSet = inlineformset_factory(
     can_delete=True,
     max_num=None,
 )
+
 
 class CommentForm(forms.ModelForm):
     class Meta:

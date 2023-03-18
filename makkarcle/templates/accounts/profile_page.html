@@ -5,12 +5,18 @@
 {% block title %}Страница профиля{% endblock title %}
 
 {% block content %}
-<h2>{{ user.username }}</h2>
-<div class="col-4">
-    <form action="" method="post">
-        {% csrf_token %}
-        {{ form|crispy }}
-<!--        <button class="btn btn-dark" type="submit">Изменить</button>-->
-    </form>
+<h4>Имя пользователя: {{ user.username }}</h4>
+<h4>Имя: {{ user.first_name }}</h4>
+<h4>Фамилия: {{ user.last_name }}</h4>
+<h4>Адрес: {{ user.address }}</h4>
+<div>
+    <a href="{% url 'update_profile' object.pk%}">Изменить профиль</a>
 </div>
-{% endblock content %}
+    <!--<div class="col-4">-->
+    <!--    <form action="" method="post">-->
+    <!--        {% csrf_token %}-->
+    <!--        {{ form|crispy }}-->
+    <!--        <button class="btn btn-dark" type="submit">Изменить</button>-->
+    <!--    </form>-->
+    <!--</div>-->
+    {% endblock content %}

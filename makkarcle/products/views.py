@@ -10,11 +10,11 @@ from .forms import CommentForm, PhotoFormSet, ProductForm
 
 class ProductsCreateView(View):
     template_name = "product_new.html"
+
     def get(self, request, *args, **kwargs):
         product_form = ProductForm()
         photo_form_set = PhotoFormSet(queryset=ProductPhoto.objects.none())
-        return render(request, "product_new.html", {'product_form': product_form, "photo_form_set": photo_form_set})
-
+        return render(request, "product_new.html", {"product_form": product_form, "photo_form_set": photo_form_set})
 
 
 class ProductsListView(ListView):
@@ -66,6 +66,7 @@ class ProductsDetailView(View):
 class ProductsUpdateView(UpdateView):
     model = Product
     fields = (
+        "category",
         "firma",
         "name",
         "image",

@@ -24,7 +24,9 @@
             </div>
             {% if user.is_staff %}
             <div class="crad-footer text-dark">
-                <a href="{% url 'product_edit' product.pk %}" style="text-decoration: none; color: black;">Изменить</a> | <a href="{% url 'product_delete' product.pk %}" style="text-decoration: none; color: black;">Удалить</a>
+                <a href="{% url 'product_edit' product.pk %}" style="text-decoration: none; color: black;">Изменить</a>
+                | <a href="{% url 'product_delete' product.pk %}"
+                     style="text-decoration: none; color: black;">Удалить</a>
             </div>
             {% endif %}
         </div>
