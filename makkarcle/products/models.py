@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from django.conf import settings
+from decimal import Decimal
 
 
 # Create your models here.
@@ -33,12 +34,14 @@ class Product(models.Model):
 		verbose_name = 'Товар'
 		verbose_name_plural = 'Товары'
 
-
 	def __str__(self):
 		return self.name
 
 	def get_absolute_url(self):
 		return reverse("product_list")
+
+	def disc_price(self):
+		return round(self.price * Decimal(0.9), 2)
 
 
 class ProductPhoto(models.Model):

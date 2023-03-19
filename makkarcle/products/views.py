@@ -4,8 +4,10 @@ from django.views.generic.edit import UpdateView, DeleteView
 from django.views.generic.detail import SingleObjectMixin
 from django.views import View
 from django.shortcuts import render, redirect, get_object_or_404
+from datetime import date
 from .models import Product, ProductPhoto
 from .forms import CommentForm, PhotoFormSet, ProductForm
+from .filters import ProductFilter
 
 
 class ProductsCreateView(View):
@@ -20,6 +22,18 @@ class ProductsCreateView(View):
 class ProductsListView(ListView):
     model = Product
     template_name = "product_list.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['today'] = date.today()
+        products = Product.objects.all()
+        my_filter = ProductFilter(self.request.GET, queryset=products)
+        context['filter'] = my_filter
+        # context['product_list'] = Product.objects.all()
+        if self.request.GET:
+            products = my_filter.qs
+            context['product_list'] = products
+        return context
 
 
 class CommentGet(DetailView):

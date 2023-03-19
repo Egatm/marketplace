@@ -5,10 +5,11 @@
 {% block title %}Страница профиля{% endblock title %}
 
 {% block content %}
-<h4>Имя пользователя: {{ user.username }}</h4>
-<h4>Имя: {{ user.first_name }}</h4>
-<h4>Фамилия: {{ user.last_name }}</h4>
-<h4>Адрес: {{ user.address }}</h4>
+<h6>Имя пользователя: {{ user.username }}</h6>
+<h6>Имя: {{ user.first_name }}</h6>
+<h6>Фамилия: {{ user.last_name }}</h6>
+<h6>Адрес: {{ user.address }}</h6>
+<h6>День рождения: {{ user.birth_date }}</h6>
 <div>
     <a href="{% url 'update_profile' object.pk%}">Изменить профиль</a>
 </div>

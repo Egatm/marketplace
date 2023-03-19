@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     # crispyes
     'crispy_forms',
     'crispy_bootstrap5',
+    # filters
+    'django_filters',
     # my apps
     'accounts',
     'pages',
@@ -120,7 +122,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'ru-ru'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Minsk'
 
 USE_I18N = True
 
