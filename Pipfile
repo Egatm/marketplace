@@ -10,6 +10,7 @@ django-crispy-forms = "*"
 crispy-bootstrap5 = "*"
 environs = "*"
 django-filter = "*"
+psycopg2 = "*"
 
 [dev-packages]
 
