@@ -23,9 +23,16 @@
                 {% endif %}
             </ul>
 
-            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search" method="get">
-                <input type="search" class="form-control" placeholder="Поиск..." aria-label="Поиск">
-            </form>
+<!--            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search" method="get">-->
+<!--                <input type="search" class="form-control" placeholder="Поиск..." aria-label="Поиск">-->
+<!--            </form>-->
+
+            <div class="search-form">
+                <form class="d-flex" action="{% url 'product_list' %}" method="GET">
+                    <input class="form-control me-2" type="search" name="search" value="{{ request.GET.search }}"
+                           placeholder="Поиск..." aria-label="Поиск">
+                </form>
+            </div>
 
             <div class="dropdown text-end">
                 {% if user.is_authenticated %}

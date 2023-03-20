@@ -4,6 +4,7 @@ from django.views.generic.edit import UpdateView, DeleteView
 from django.views.generic.detail import SingleObjectMixin
 from django.views import View
 from django.shortcuts import render, redirect, get_object_or_404
+from django.db.models import Q
 from datetime import date
 from .models import Product, ProductPhoto
 from .forms import CommentForm, PhotoFormSet, ProductForm
@@ -23,16 +24,25 @@ class ProductsListView(ListView):
     model = Product
     template_name = "product_list.html"
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        query = self.request.GET.get('search')
+        if query:
+            queryset = queryset.filter(Q(name__icontains=query) | Q(description__icontains=query))
+        return queryset
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['today'] = date.today()
-        products = Product.objects.all()
+
+        products = self.get_queryset()
         my_filter = ProductFilter(self.request.GET, queryset=products)
-        context['filter'] = my_filter
-        # context['product_list'] = Product.objects.all()
-        if self.request.GET:
+
+        if my_filter.form.is_valid():
             products = my_filter.qs
-            context['product_list'] = products
+        context['product_list'] = products
+        context['filter'] = my_filter
+
         return context
 
 
