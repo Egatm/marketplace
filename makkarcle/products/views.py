@@ -7,17 +7,36 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Q
 from datetime import date
 from .models import Product, ProductPhoto
-from .forms import CommentForm, PhotoFormSet, ProductForm
+from .forms import CommentForm, ProductPhotoForm, ProductForm
 from .filters import ProductFilter
+from django.forms import inlineformset_factory
 
+ProductPhotoFormSet = inlineformset_factory(Product, ProductPhoto, form=ProductPhotoForm, extra=1, can_delete=False)
 
-class ProductsCreateView(View):
-    template_name = "product_new.html"
+class ProductCreateView(CreateView):
+    model = Product
+    form_class = ProductForm
+    template_name = 'product_new.html'
 
-    def get(self, request, *args, **kwargs):
-        product_form = ProductForm()
-        photo_form_set = PhotoFormSet(queryset=ProductPhoto.objects.none())
-        return render(request, "product_new.html", {"product_form": product_form, "photo_form_set": photo_form_set})
+    def get_context_data(self, **kwargs):
+        context = super(ProductCreateView, self).get_context_data(**kwargs)
+        if self.request.POST:
+            context['formset'] = ProductPhotoFormSet(self.request.POST, self.request.FILES, prefix='productphoto')
+        else:
+            context['formset'] = ProductPhotoFormSet(queryset=ProductPhoto.objects.none(), prefix='productphoto')
+        return context
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        formset = context['formset']
+        if formset.is_valid():
+            response = super().form_valid(form)
+            formset.instance = self.object
+            formset.save()
+            return response
+        else:
+            return self.render_to_response(self.get_context_data(form=form))
+
 
 
 class ProductsListView(ListView):
