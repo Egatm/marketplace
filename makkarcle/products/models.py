@@ -26,8 +26,7 @@ class Product(models.Model):
 	description_all = models.TextField(max_length=2000, blank=True, verbose_name="Полное описание")
 	price = models.DecimalField(max_digits=6, decimal_places=2, verbose_name="Цена")
 	available = models.BooleanField(default=True)
-
-	# seller = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+	seller = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, default=1)
 
 	class Meta:
 		ordering = ('name',)
@@ -43,6 +42,17 @@ class Product(models.Model):
 	def disc_price(self):
 		return round(self.price * Decimal(0.9), 2)
 
+	def get_first_photo(self):
+		try:
+			return self.productphoto_set.first().photo
+		except:
+			return self.image
+
+	def all_photos(self):
+		try:
+			return self.productphoto_set.all()
+		except:
+			return self.image
 
 class ProductPhoto(models.Model):
 	photo = models.ImageField(upload_to='products/', blank=True, verbose_name="Изображение")

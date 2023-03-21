@@ -8,7 +8,13 @@
 <div class="container">
     <div class="row align-items-start">
         <div class="col">
-            <img src="{{ product.image.url }}">
+            {% if not product.all_photos %}
+            <img src="{{ product.image.url }}" class="img-thumbnail">
+            {% else %}
+            {% for photo in product.all_photos %}
+            <img src="{{ photo.photo.url }}" alt="{{ product.name }}" class="img-thumbnail">
+            {% endfor %}
+            {% endif %}
         </div>
         <div class="col">
             <p><strong>{{ product.name }}</strong></p>
