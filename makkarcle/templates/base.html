@@ -45,7 +45,7 @@
                     style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(0px, 34px);"
                     data-popper-placement="bottom-start">
                     <li><a class="dropdown-item" href="{% url 'profile' user.pk %}">Профиль</a></li>
-                    <li><a class="dropdown-item" href="#">Корзина</a></li>
+                    <li><a class="dropdown-item" href="{% url 'cart' %}">Корзина</a></li>
                     <li><a class="dropdown-item" href="{% url 'password_change' %}">Изменить пароль</a></li>
                     <li>
                         <hr class="dropdown-divider">

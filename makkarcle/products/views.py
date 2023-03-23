@@ -6,12 +6,16 @@ from django.views import View
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Q
 from datetime import date
-from .models import Product, ProductPhoto
+from .models import Product, ProductPhoto, Order
 from .forms import CommentForm, ProductPhotoForm, ProductForm
 from .filters import ProductFilter
 from django.forms import inlineformset_factory
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+
 
 ProductPhotoFormSet = inlineformset_factory(Product, ProductPhoto, form=ProductPhotoForm, extra=1, can_delete=False)
+
 
 class ProductCreateView(CreateView):
     model = Product
@@ -36,7 +40,6 @@ class ProductCreateView(CreateView):
             return response
         else:
             return self.render_to_response(self.get_context_data(form=form))
-
 
 
 class ProductsListView(ListView):
@@ -124,3 +127,64 @@ class ProductsDeleteView(DeleteView):
     model = Product
     template_name = "product_delete.html"
     success_url = reverse_lazy("product_list")
+
+
+@login_required
+def add_to_cart(request, id):
+    product = Product.objects.get(id=id)
+    order, created = Order.objects.get_or_create(
+         user=request.user,
+         product=product,
+         defaults={'quantity': 1}
+    )
+    if not created:
+        order.quantity += 1
+        order.save()
+    messages.success(request, "Товар добавлен в корзину.")
+    return redirect('cart')
+
+
+@login_required
+def cart(request):
+    orders = Order.objects.filter(user=request.user)
+    context = {'orders': orders}
+    return render(request, 'cart.html', context)
+
+
+@login_required
+def remove_from_cart(request, id):
+    order = Order.objects.get(id=id)
+    order.delete()
+    messages.success(request, "Товар удален из корзины.")
+    return redirect('cart')
+
+
+def change_quantity(request, pk):
+    order = get_object_or_404(Order, pk=pk)
+    if request.method == 'POST':
+        new_quantity = request.POST.get('quantity')
+        if int(new_quantity) > 0:
+            order.quantity = int(new_quantity)
+            order.save()
+    return redirect('cart')
+
+
+def calculate_cart_price(orders):
+    total_price = 0
+    for order in orders:
+        total_price += order.product.price * order.quantity
+    return total_price
+
+
+def view_cart(request):
+    orders = Order.objects.filter(user=request.user, is_ordered=False)
+
+    if not orders.exists():
+        return render(request, 'cart.html', {'message': 'Ваша корзина пуста.'})
+
+    total_price = round(calculate_cart_price(orders), 2)
+    context = {
+        'orders': orders,
+        'total_price': total_price,
+    }
+    return render(request, 'cart.html', context)
