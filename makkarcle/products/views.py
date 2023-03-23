@@ -147,7 +147,8 @@ def add_to_cart(request, id):
 @login_required
 def cart(request):
     orders = Order.objects.filter(user=request.user)
-    context = {'orders': orders}
+    total_price = calculate_cart_price(orders)
+    context = {'orders': orders, 'total_price': total_price}
     return render(request, 'cart.html', context)
 
 
@@ -172,7 +173,8 @@ def change_quantity(request, pk):
 def calculate_cart_price(orders):
     total_price = 0
     for order in orders:
-        total_price += order.product.price * order.quantity
+        total_price += order.total_price()
+        print(total_price, order.total_price())
     return total_price
 
 

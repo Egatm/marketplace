@@ -31,11 +31,7 @@
                 </div>
             </form>
         </td>
-        {% if order.quantity > 1 %}
         <td>{{ order.total_price }} руб.</td>
-        {% else %}
-        <td>{{ order.product.price }} руб.</td>
-        {% endif %}
         <td>
             <a href="{% url 'remove_from_cart' order.id %}" class="btn btn-danger btn-sm">Удалить</a>
         </td>
