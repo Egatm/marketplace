@@ -163,4 +163,4 @@ EMAIL_HOST = 'smtp.grodnoapps.com'
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = env.str("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = env.str("EMAIL_HOST_PASSWORD")
-DEFAULT_FROM_EMAIL = 'makkracel@grodnoapps.com'
+DEFAULT_FROM_EMAIL = env.str("EMAIL_HOST_USER")
