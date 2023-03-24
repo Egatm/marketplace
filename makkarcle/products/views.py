@@ -12,7 +12,7 @@ from .filters import ProductFilter
 from django.forms import inlineformset_factory
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-
+import random
 
 ProductPhotoFormSet = inlineformset_factory(Product, ProductPhoto, form=ProductPhotoForm, extra=1, can_delete=False)
 
@@ -190,3 +190,5 @@ def view_cart(request):
         'total_price': total_price,
     }
     return render(request, 'cart.html', context)
+
+
