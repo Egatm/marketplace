@@ -6,13 +6,13 @@ from django.views import View
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Q
 from datetime import date
-from .models import Product, ProductPhoto, Order
+from .models import Product, ProductPhoto, Order, OrderItem
 from .forms import CommentForm, ProductPhotoForm, ProductForm
 from .filters import ProductFilter
 from django.forms import inlineformset_factory
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-import random
+
 
 ProductPhotoFormSet = inlineformset_factory(Product, ProductPhoto, form=ProductPhotoForm, extra=1, can_delete=False)
 
@@ -192,3 +192,30 @@ def view_cart(request):
     return render(request, 'cart.html', context)
 
 
+
+@login_required
+def checkout(request):
+    orders = Order.objects.filter(user=request.user, is_ordered=False)
+
+    if not orders.exists():
+        return render(request, 'cart.html', {'message': 'Ваша корзина пуста.'})
+
+    total_price = calculate_cart_price(orders)
+
+    if request.method == 'POST':
+        # Создание объекта заказа
+        order = Order.objects.create(user=request.user, total_price=total_price, is_ordered=True)
+
+        # Добавление каждого товара из корзины в заказ
+        for cart_item in orders:
+            order_item = OrderItem.objects.create(order=order, product=cart_item.product, quantity=cart_item.quantity)
+            order_item.save()
+
+            # Удаление товара из корзины
+            cart_item.delete()
+
+        messages.success(request, 'Ваш заказ оформлен.')
+        return redirect('orders')
+
+    context = {'orders': orders, 'total_price': total_price}
+    return render(request, 'checkout.html', context)
