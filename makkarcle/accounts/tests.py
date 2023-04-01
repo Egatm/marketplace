@@ -175,10 +175,10 @@ class PasswordResetTests(TestCase):
 
     # test password reset page
     def test_view(self):
-        self.assertEqual(self.responce.status_code, 200)
-        self.assertTemplateUsed(self.responce, 'registration/password_reset_form.html')
-        self.assertContains(self.responce, 'Сбросить пароль')
-        self.assertNotContains(self.responce, 'Email был отослан')
+        self.assertEqual(self.response.status_code, 200)
+        self.assertTemplateUsed(self.response, 'registration/password_reset_form.html')
+        self.assertContains(self.response, 'Сбросить пароль')
+        self.assertNotContains(self.response, 'Email был отослан')
 
     # test password reset view post request
     def test_password_reset_post(self):
