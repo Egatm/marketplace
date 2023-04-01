@@ -87,8 +87,8 @@ class UpdateProfileTest(TestCase):
 class LoginPageTests(TestCase):
     # check login url status code
     def test_login_page_status_code_by_url(self):
-        responce = self.client.get('/account/login/')
-        self.assertEqual(responce.status_code, 200)
+        response = self.client.get('/account/login/')
+        self.assertEqual(response.status_code, 200)
 
     # reverse responce setup
     def setUp(self) -> None:
@@ -99,29 +99,29 @@ class LoginPageTests(TestCase):
             password="testpass123",
         )
         self.url = reverse('login')
-        self.responce = self.client.get(self.url)
+        self.response = self.client.get(self.url)
     # check login page status code via reverse
 
     def test_login_page_status_code_by_reverse(self):
-        self.assertEqual(self.responce.status_code, 200)
+        self.assertEqual(self.response.status_code, 200)
 
     # check login page template name via reverse
     def test_login_page_template_by_reverse(self):
-        self.assertTemplateUsed(self.responce, 'registration/login.html')
+        self.assertTemplateUsed(self.response, 'registration/login.html')
 
     # check that page contains correct html
     def test_login_page_contains_correct_html(self):
-        self.assertContains(self.responce, 'Войти')
-        self.assertNotContains(self.responce, 'Django administration')
+        self.assertContains(self.response, 'Войти')
+        self.assertNotContains(self.response, 'Django administration')
 
     # check that user can log in
     def test_user_can_login(self):
-        responce = self.client.post(self.url, data={
+        response = self.client.post(self.url, data={
             "username": "test",
             "password": "testpass123",
         })
-        self.assertEqual(responce.status_code, 302)
-        self.assertEqual(responce.url, reverse('home'))
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, reverse('home'))
 
 
 # test custom user model
@@ -166,12 +166,12 @@ class PasswordResetTests(TestCase):
             password="testpass123",
         )
         self.url = reverse('password_reset')
-        self.responce = self.client.get(self.url)
+        self.response = self.client.get(self.url)
 
     # test password reset view by url
     def test_view_by_url(self):
-        responce = self.client.get('/account/password_reset/')
-        self.assertEqual(responce.status_code, 200)
+        response = self.client.get('/account/password_reset/')
+        self.assertEqual(response.status_code, 200)
 
     # test password reset page
     def test_view(self):
@@ -182,8 +182,8 @@ class PasswordResetTests(TestCase):
 
     # test password reset view post request
     def test_password_reset_post(self):
-        responce = self.client.post(self.url, data={
+        response = self.client.post(self.url, data={
             'email': "test@example.com",
         })
-        self.assertEqual(responce.status_code, 302)
-        self.assertEqual(responce.url, reverse("password_reset_done"))
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, reverse("password_reset_done"))
