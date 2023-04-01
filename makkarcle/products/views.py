@@ -202,15 +202,8 @@ def checkout(request):
 
     if request.method == 'POST':
         for order in orders:
-            # создаем новый `Order` объект на основе текущего заказа
-            order_instance = Order.objects.create(
-                user=request.user,
-                product=order.product,
-                quantity=order.quantity
-            )
             # создаем новый `OrderItem` объект на основе текущего заказа и связываем его с созданным `Order`
             order_item = OrderItem.objects.create(
-                order=order_instance,
                 product=order.product,
                 quantity=order.quantity,
                 user=request.user
@@ -230,7 +223,7 @@ def checkout(request):
 
 @login_required
 def my_orders(request):
-    orders = OrderItem.objects.filter(order__user=request.user).order_by('-id')
+    orders = OrderItem.objects.filter(user=request.user).order_by('-id')
 
     total_price = sum(order.total_price() for order in orders)
 
