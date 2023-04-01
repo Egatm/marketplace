@@ -17,8 +17,8 @@
     <tr>
         <td>{{ order.product.name }}</td>
         <td>{{ order.quantity }}</td>
-        <td>{{ order.product.price }}</td>
-        <td>{{ order.total_price }}</td>
+        <td>{{ order.product.price }} руб.</td>
+        <td>{{ order.total_price }} руб.</td>
         <td><a class="btn btn-danger" href="{% url 'cancel_order' order.pk %}">Отменить</a></td>
     </tr>
     {% endfor %}
@@ -26,7 +26,7 @@
     <tfoot>
     <tr>
         <td colspan=3>Итого</td>
-        <td>{{ total_price }}</td>
+        <td>{{ total_price }} руб.</td>
     </tr>
     </tfoot>
 </table>

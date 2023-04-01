@@ -8,9 +8,9 @@
         {% for product in last_products %}
         <div class="carousel-item{% if forloop.first %} active{% endif %}">
             <div class="d-flex flex-column align-items-center">
-                <img src="{{ product.get_first_photo.url }}" class="d-block mx-auto" alt="..." style="max-height: 400px; max-width: 100%;">
+                <a href="{% url 'product_detail' product.pk %}"><img src="{{ product.get_first_photo.url }}" class="d-block mx-auto" alt="..." style="max-height: 400px; max-width: 100%;"></a>
                 <div class="text-center">
-                    <h5>{{ product.name }}</h5>
+                    <h5><strong><a href="{% url 'product_detail' product.pk %}" style="text-decoration: none; color: black;">{{ product.name }}</a></strong></h5>
                     <p>{{ product.price }} руб.</p>
                 </div>
             </div>
