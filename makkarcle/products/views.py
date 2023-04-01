@@ -232,3 +232,13 @@ def my_orders(request):
         'total_price': total_price,
     }
     return render(request, 'my_orders.html', context)
+
+
+def cancel_order(request, pk):
+    order = get_object_or_404(OrderItem, pk=pk)
+    if request.method == 'POST' and request.POST.get('confirm') == 'yes':
+        order.delete()
+        messages.success(request, 'Заказ успешно отменен.')
+        return redirect('my_orders')
+    context = {'order': order}
+    return render(request, 'cancel_order.html', context)
