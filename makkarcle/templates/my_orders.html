@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Мои заказы</h1>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Номер заказа</th>
+        <th>Наименование товара</th>
+        <th>Количество</th>
+        <th>Цена за единицу</th>
+        <th>Сумма</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for order in orders %}
+    <tr>
+        <td>{{ order.order.pk }}</td>
+        <td>{{ order.product.name }}</td>
+        <td>{{ order.quantity }}</td>
+        <td>{{ order.product.price }}</td>
+        <td>{{ order.total_price }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+    <tfoot>
+    <tr>
+        <td colspan=4>Итого</td>
+        <td>{{ total_price }}</td>
+    </tr>
+    </tfoot>
+</table>
+{% endblock %}

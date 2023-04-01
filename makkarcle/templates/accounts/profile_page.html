@@ -10,14 +10,10 @@
 <h6>Фамилия: {{ user.last_name }}</h6>
 <h6>Адрес: {{ user.address }}</h6>
 <h6>День рождения: {{ user.birth_date }}</h6>
-<div>
-    <a href="{% url 'update_profile' object.pk%}">Изменить профиль</a>
+<div class="btn btn-dark nav-item me-2">
+    <a class="nav-link" href="{% url 'update_profile' object.pk%}">Изменить профиль</a>
 </div>
-    <!--<div class="col-4">-->
-    <!--    <form action="" method="post">-->
-    <!--        {% csrf_token %}-->
-    <!--        {{ form|crispy }}-->
-    <!--        <button class="btn btn-dark" type="submit">Изменить</button>-->
-    <!--    </form>-->
-    <!--</div>-->
+<div class="btn btn-dark nav-item me-3">
+    <a class="nav-link" href="{% url 'my_orders' %}">Мои заказы</a>
+</div>
     {% endblock content %}

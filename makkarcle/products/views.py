@@ -178,44 +178,64 @@ def calculate_cart_price(orders):
     return total_price
 
 
+@login_required
 def view_cart(request):
-    orders = Order.objects.filter(user=request.user, is_ordered=False)
-
-    if not orders.exists():
+    orders = Order.objects.filter(user=request.user)
+    new_orders = []
+    for order in orders:
+        if order.order_items.first():
+            new_orders.append(order)
+    if not new_orders:
         return render(request, 'cart.html', {'message': 'Ваша корзина пуста.'})
-
-    total_price = round(calculate_cart_price(orders), 2)
+    total_price = round(calculate_cart_price(new_orders), 2)
     context = {
-        'orders': orders,
+        'orders': new_orders,
         'total_price': total_price,
     }
     return render(request, 'cart.html', context)
 
 
-
 @login_required
 def checkout(request):
-    orders = Order.objects.filter(user=request.user, is_ordered=False)
-
-    if not orders.exists():
-        return render(request, 'cart.html', {'message': 'Ваша корзина пуста.'})
-
+    orders = Order.objects.filter(user=request.user)
     total_price = calculate_cart_price(orders)
 
     if request.method == 'POST':
-        # Создание объекта заказа
-        order = Order.objects.create(user=request.user, total_price=total_price, is_ordered=True)
+        for order in orders:
+            # создаем новый `Order` объект на основе текущего заказа
+            order_instance = Order.objects.create(
+                user=request.user,
+                product=order.product,
+                quantity=order.quantity
+            )
+            # создаем новый `OrderItem` объект на основе текущего заказа и связываем его с созданным `Order`
+            order_item = OrderItem.objects.create(
+                order=order_instance,
+                product=order.product,
+                quantity=order.quantity,
+                user=request.user
+            )
+            # удаляем текущий `Order` объект из базы данных
+            order.delete()
 
-        # Добавление каждого товара из корзины в заказ
-        for cart_item in orders:
-            order_item = OrderItem.objects.create(order=order, product=cart_item.product, quantity=cart_item.quantity)
-            order_item.save()
+        messages.success(request, "Заказ оформлен. С вами свяжутся для подтверждения.")
+        return redirect('my_orders')
 
-            # Удаление товара из корзины
-            cart_item.delete()
-
-        messages.success(request, 'Ваш заказ оформлен.')
-        return redirect('orders')
-
-    context = {'orders': orders, 'total_price': total_price}
+    context = {
+        'orders': orders,
+        'total_price': total_price,
+    }
     return render(request, 'checkout.html', context)
+
+
+@login_required
+def my_orders(request):
+    orders = OrderItem.objects.filter(order__user=request.user).order_by('-id')
+
+    total_price = sum(order.total_price() for order in orders)
+
+    context = {
+        'orders': orders,
+        'total_price': total_price,
+    }
+    return render(request, 'my_orders.html', context)
