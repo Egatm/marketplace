@@ -1,26 +1,22 @@
 {% extends "base.html" %}
-
-{% load crispy_forms_tags  %}
+{% load crispy_forms_tags %}
+{% load static  %}
 
 {% block title %}{{ product.name }}{% endblock title %}
-{% block js %}
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
-{% endblock js %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/magnific-popup.css' %}">
+{% endblock css %}
+
 {% block content %}
 <div class="container">
     <div class="row align-items-start">
         <div class="col">
             {% if not product.all_photos %}
-            <a href="{{ product.image.url }}" class="img-thumbnail" data-lightbox="product-images">
-                <img src="{{ product.image.url }}" class="img-thumbnail">
-            </a>
+            <a href="{{ product.image.url }}" class="image-link"><img src="{{ product.image.url }}" alt="{{ product.name }}" class="img-thumbnail"></a>
             {% else %}
             {% for photo in product.all_photos %}
-            <a href="{{ photo.photo.url }}" class="img-thumbnail" data-lightbox="product-images">
-                <img src="{{ photo.photo.url }}" alt="{{ product.name }}" class="img-thumbnail">
-            </a>
+            <a href="{{ photo.photo.url }}" class="image-link"><img src="{{ photo.photo.url }}" alt="{{ product.name }}" class="img-thumbnail"></a>
             {% endfor %}
             {% endif %}
         </div>
@@ -30,12 +26,9 @@
                 <pre>{{ product.description_all }}</pre>
             </div>
         </div>
-
         <div class="col">
             <p><strong>{{ "Цена:" }} {{ product.price }} {{ "руб." }}</strong></p>
-            <div class="btn btn-dark nav-item me-2">
-                <a class="nav-link" href="{% url 'add_to_cart' product.id %}">Добавить в корзину</a>
-            </div>
+            <div class="btn btn-dark nav-item me-2"><a class="nav-link" href="{% url 'add_to_cart' product.id %}">Добавить в корзину</a></div>
         </div>
     </div>
     <hr>
@@ -56,13 +49,23 @@
     {% endfor %}
     <hr>
 </div>
-<script>$(document).ready(function () {
-  lightbox.option({
-    'resizeDuration': 200,
-    'wrapAround': true
-  })
-})
 
-
+{% block scripts %}
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
+<script>
+  $(document).ready(function() {
+    $('.image-link').magnificPopup({
+      type: 'image',
+      mainClass: 'mfp-img-mobile',
+      gallery: {
+        enabled: true,
+        navigateByImgClick: true,
+        preload: [0, 1]
+      }
+    });
+  });
 </script>
+{% endblock scripts %}
+
 {% endblock content %}
