@@ -94,11 +94,11 @@ WSGI_APPLICATION = 'makkarcle.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'makkarcle',
-        'USER': 'postgres',
-        'PASSWORD': 'Ab1802180a',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'NAME': env.str("DATABASE_NAME"),
+        'USER': env.str("DATABASE_USER"),
+        'PASSWORD': env.str("DATABASE_PASSWORD"),
+        'HOST': env.str("DATABASE_HOST"),
+        'PORT': env.str("DATABASE_PORT"),
     }
 }
 # DATABASES = {
