@@ -23,10 +23,10 @@ class Product(models.Model):
 	name = models.CharField(max_length=150, db_index=True, verbose_name="Название")
 	image = models.ImageField(upload_to='images/', default="images/no_image.jpg", blank=True, verbose_name="Изображение")
 	description = models.TextField(max_length=1000, blank=True, verbose_name="Краткое описание")
-	description_all = models.TextField(max_length=2000, blank=True, verbose_name="Полное описание")
+	description_all = models.TextField(max_length=20000, blank=True, verbose_name="Полное описание")
 	price = models.DecimalField(max_digits=6, decimal_places=2, verbose_name="Цена")
 	available = models.BooleanField(default=True)
-	seller = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, default=1)
+	seller = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, default=1, verbose_name="Продавец")
 
 	class Meta:
 		ordering = ('name',)

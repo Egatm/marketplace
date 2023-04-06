@@ -18,48 +18,51 @@
         <div class="col">
             {% if product_list %}
             {% if request.GET.search %}
-                <p>Результаты поиска для "{{ request.GET.search }}"</p>
+            <p>Результаты поиска для "{{ request.GET.search }}"</p>
             {% endif %}
-                {% for product in product_list %}
-                <div class="container">
-                    <div class="row align-items-start">
+            {% for product in product_list %}
+            <div class="container">
+                <div class="row align-items-start">
+                    <div class="col">
+                        {% with product_photo=product.get_first_photo %}
+                        <a href="{% url 'product_detail' product.pk %}"><img src="{{ product_photo.url }}" width="90%"></a>
+                        {% endwith %}
+                    </div>
+                    <div class="col">
+                        <p><strong><a href="{% url 'product_detail' product.pk %}"
+                                      style="text-decoration: none; color: black;">{{ product.name }}</a></strong></p>
                         <div class="col">
-                            {% with product_photo=product.get_first_photo %}
-                            <a href="{% url 'product_detail' product.pk %}"><img src="{{ product_photo.url }}" width="200" height="175"></a>
-                            {% endwith %}
-                        </div>
-                        <div class="col">
-                            <p><strong><a href="{% url 'product_detail' product.pk %}" style="text-decoration: none; color: black;">{{ product.name }}</a></strong></p>
-                            <div class="col">
-                                <pre>{{ product.description }}</pre>
-                            </div>
-                        </div>
-                        <div class="col">
-                            {% if user.birth_date|date:"m-d" == today|date:"m-d" %}
-                                <p><strong>{{ "Цена:" }} {{ product.disc_price }} {{ "руб." }}</strong></p>
-                            {% else %}
-                                <p><strong>{{ "Цена:" }} {{ product.price }} {{ "руб." }}</strong></p>
-                            {% endif %}
-                            <div class="btn btn-dark nav-item me-2">
-                                <a class="nav-link" href="{% url 'add_to_cart' product.id %}">Добавить в корзину</a>
-                            </div>
-                            {% if user.is_staff %}
-                            <div class="crad-footer text-dark">
-                                <a href="{% url 'product_edit' product.pk %}" style="text-decoration: none; color: black;">Изменить</a>
-                                | <a href="{% url 'product_delete' product.pk %}" style="text-decoration: none; color: black;">Удалить</a>
-                            </div>
-                            {% elif user == product.seller %}
-                            <div class="crad-footer text-dark">
-                                <a href="{% url 'product_edit' product.pk %}" style="text-decoration: none; color: black;">Изменить</a>
-                                | <a href="{% url 'product_delete' product.pk %}" style="text-decoration: none; color: black;">Удалить</a>
-                            </div>
-                            {% endif %}
+                            <pre>{{ product.description }}</pre>
                         </div>
                     </div>
+                    <div class="col">
+                        {% if user.birth_date|date:"m-d" == today|date:"m-d" %}
+                        <p><strong>{{ "Цена:" }} {{ product.disc_price }} {{ "руб." }}</strong></p>
+                        {% else %}
+                        <p><strong>{{ "Цена:" }} {{ product.price }} {{ "руб." }}</strong></p>
+                        {% endif %}
+                        <div class="btn btn-dark nav-item me-2">
+                            <a class="nav-link" href="{% url 'add_to_cart' product.id %}">Добавить в корзину</a>
+                        </div>
+                        {% if user.is_staff %}
+                        <div class="crad-footer text-dark">
+                            <a href="{% url 'product_edit' product.pk %}" style="text-decoration: none; color: black;">Изменить</a>
+                            | <a href="{% url 'product_delete' product.pk %}"
+                                 style="text-decoration: none; color: black;">Удалить</a>
+                        </div>
+                        {% elif user == product.seller %}
+                        <div class="crad-footer text-dark">
+                            <a href="{% url 'product_edit' product.pk %}" style="text-decoration: none; color: black;">Изменить</a>
+                            | <a href="{% url 'product_delete' product.pk %}"
+                                 style="text-decoration: none; color: black;">Удалить</a>
+                        </div>
+                        {% endif %}
+                    </div>
                 </div>
-                {% endfor %}
+            </div>
+            {% endfor %}
             {% else %}
-                <p>Нет товаров, удовлетворяющих критериям поиска.</p>
+            <p>Нет товаров, удовлетворяющих критериям поиска.</p>
             {% endif %}
         </div>
     </div>
