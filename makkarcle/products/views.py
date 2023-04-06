@@ -14,14 +14,17 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
 
+# создание inline-формы для связи нескольких объектов ProductPhoto с одним объектом Product
 ProductPhotoFormSet = inlineformset_factory(Product, ProductPhoto, form=ProductPhotoForm, extra=1, can_delete=False)
 
 
+# создание класса для отображения формы создания нового объекта Product с несколькими формами ProductPhoto
 class ProductCreateView(CreateView):
     model = Product
     form_class = ProductForm
     template_name = 'product_new.html'
 
+    # переопределение метода get_context_data для добавления inline-формы в контекст шаблона
     def get_context_data(self, **kwargs):
         context = super(ProductCreateView, self).get_context_data(**kwargs)
         if self.request.POST:
@@ -30,6 +33,7 @@ class ProductCreateView(CreateView):
             context['formset'] = ProductPhotoFormSet(queryset=ProductPhoto.objects.none(), prefix='productphoto')
         return context
 
+    # переопределение метода form_valid для сохранения объекта Product и объектов ProductPhoto, связанных с ним
     def form_valid(self, form):
         context = self.get_context_data()
         formset = context['formset']
