@@ -24,7 +24,8 @@ class UpdateProfile(UpdateView):
 		"username",
 		"email",
 		"birth_date",
-		"firstname",
-		"lastname",
+		"first_name",
+		"last_name",
+		"address",
 	)
 	template_name = "accounts/profile_edit.html"

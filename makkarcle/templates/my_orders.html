@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Мои заказы</h1>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Наименование товара</th>
+        <th>Количество</th>
+        <th>Цена за единицу</th>
+        <th>Сумма</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for order in orders %}
+    <tr>
+        <td>{{ order.product.name }}</td>
+        <td>{{ order.quantity }}</td>
+        <td>{{ order.product.price }} руб.</td>
+        <td>{{ order.total_price }} руб.</td>
+        <td><a class="btn btn-danger" href="{% url 'cancel_order' order.pk %}">Отменить</a></td>
+    </tr>
+    {% endfor %}
+    </tbody>
+    <tfoot>
+    <tr>
+        <td colspan=3>Итого</td>
+        <td>{{ total_price }} руб.</td>
+    </tr>
+    </tfoot>
+</table>
+{% endblock %}

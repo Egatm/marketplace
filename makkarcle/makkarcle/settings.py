@@ -31,7 +31,7 @@ SECRET_KEY = env.str("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool("DEBUG", default=False)
 
-ALLOWED_HOSTS = [env.str("ALLOWED_HOSTS")]
+ALLOWED_HOSTS = [env.str("ALLOWED_HOSTS"), "0.0.0.0"]
 
 
 # Application definition
@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     # crispyes
     'crispy_forms',
     'crispy_bootstrap5',
+    # filters
+    'django_filters',
     # my apps
     'accounts',
     'pages',
@@ -85,16 +87,26 @@ TEMPLATES = [
 WSGI_APPLICATION = 'makkarcle.wsgi.application'
 
 
+
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': env.str("DATABASE_NAME"),
+        'USER': env.str("DATABASE_USER"),
+        'PASSWORD': env.str("DATABASE_PASSWORD"),
+        'HOST': env.str("DATABASE_HOST"),
+        'PORT': env.str("DATABASE_PORT"),
     }
 }
-
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -120,7 +132,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'ru-ru'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Minsk'
 
 USE_I18N = True
 
@@ -131,6 +143,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
+STATICFILES_DIRS = [BASE_DIR.joinpath("static/")]
+STATIC_ROOT = BASE_DIR.joinpath("staticfiles/")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -150,4 +164,4 @@ EMAIL_HOST = 'smtp.grodnoapps.com'
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = env.str("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = env.str("EMAIL_HOST_PASSWORD")
-DEFAULT_FROM_EMAIL = 'makkracel@grodnoapps.com'
+DEFAULT_FROM_EMAIL = env.str("EMAIL_HOST_USER")#'makkracel@grodnoapps.com'

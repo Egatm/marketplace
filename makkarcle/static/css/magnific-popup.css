@@ -1,0 +1,71 @@
+/* Magnific Popup CSS */
+
+.mfp-bg {
+  z-index: 9999;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.8;
+  background-color: #000;
+}
+.mfp-container {
+  z-index: 10000;
+  position: relative;
+  margin: 0 auto;
+  width: auto;
+}
+.mfp-container:before, .mfp-container:after {
+  content: "";
+  display: table;
+}
+.mfp-container:after {
+  clear: both;
+}
+.mfp-content {
+  max-width: 100%;
+  margin: 0 auto;
+  position: relative;
+  padding: 40px;
+  box-sizing: border-box;
+}
+.mfp-close-btn-in .mfp-close {
+  color: #fff;
+  text-decoration: none;
+  position: absolute;
+  right: -32px;
+  top: 0;
+  width: 39px;
+  height: 20px;
+  line-height: 40px;
+  padding: 0;
+  font-size: 28px;
+  opacity: 1;
+  -webkit-transition: all .25s ease-out;
+  -moz-transition: all .25s ease-out;
+  -ms-transition: all .25s ease-out;
+  -o-transition: all .25s ease-out;
+  transition: all .25s ease-out;
+}
+.mfp-close-btn-in .mfp-close:hover {
+  opacity: 0.6;
+}
+.mfp-close-btn-in .mfp-close:hover:before {
+  margin-bottom: 3px;
+}
+.mfp-close-btn-in .mfp-close:before {
+  content: "";
+  display: block;
+  background-color: #fff;
+  height: 3px;
+  width: 20px;
+  margin-top: 17px;
+  margin-left: 9px;
+  position: relative;
+  -webkit-transition: all .25s ease-out;
+  -moz-transition: all .25s ease-out;
+  -ms-transition: all .25s ease-out;
+  -o-transition: all .25s ease-out;
+  transition: all .25s ease-out;
+}
